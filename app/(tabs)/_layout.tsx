@@ -7,14 +7,14 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: true,
         headerStyle: {
-          backgroundColor: '#E1B000', // amarillo mostaza
+          backgroundColor: '#7C3AED',
         },
-        headerTintColor: '#000', // texto negro en el header
+        headerTintColor: '#fff',
         tabBarStyle: {
-          backgroundColor: '#1A1A1A', // fondo oscuro para la barra inferior
+          backgroundColor: '#1A1A1A',
         },
-        tabBarActiveTintColor: '#E1B000', // íconos activos en amarillo mostaza
-        tabBarInactiveTintColor: '#888', // íconos inactivos en gris
+        tabBarActiveTintColor: '#7C3AED',
+        tabBarInactiveTintColor: '#888',
       }}>
       <Tabs.Screen
         name="index"
@@ -39,5 +39,4 @@ export default function TabLayout() {
       />
     </Tabs>
   );
-}
-
+} 
