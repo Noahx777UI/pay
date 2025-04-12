@@ -1,7 +1,9 @@
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { ArrowRight, Shield, Clock, CircleCheck as CheckCircle } from 'lucide-react-native';
 
-export default function HomeScreen() {
+export default function HomeScreen() {  const showPreApprovedAlert = () => {
+    Alert.alert('Préstamo Pre-aprobado', 'Exitoso su prestamo a sido pre aprobado');
+  };
   return (
     <ScrollView style={styles.container}>
       <View style={styles.hero}>
@@ -12,7 +14,10 @@ export default function HomeScreen() {
         <View style={styles.heroContent}>
           <Text style={styles.heroTitle}>Oh Yara Pay</Text>
           <Text style={styles.heroSubtitle}>Tu aliado financiero</Text>
-          <TouchableOpacity style={styles.heroButton}>
+          <TouchableOpacity
+            style={styles.heroButton}
+            onPress={showPreApprovedAlert}
+          >
             <Text style={styles.heroButtonText}>Solicitar Préstamo</Text>
             <ArrowRight size={20} color="#fff" />
           </TouchableOpacity>
