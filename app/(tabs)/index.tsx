@@ -45,7 +45,7 @@ export default function HomeScreen() {
         <View style={styles.featureCard}>
           <CheckCircle size={32} color="#7C3AED" />
           <Text style={styles.featureTitle}>Simple</Text>
-          <Text style={styles.featureText}>Sin papeleos complicados</Text>
+          <Text style={styles.featureText}>Sin papeleos complicados para prestamos mas grandes puedes dejar objetos de valor</Text>
         </View>
       </View>
 
@@ -58,7 +58,7 @@ export default function HomeScreen() {
         <View style={styles.benefitsList}>
           <View style={styles.benefitItem}>
             <Text style={styles.benefitTitle}>Tasas Competitivas</Text>
-            <Text style={styles.benefitText}>Desde 11% anual</Text>
+            <Text style={styles.benefitText}>Desde 11% mensual</Text>
           </View>
           <View style={styles.benefitItem}>
             <Text style={styles.benefitTitle}>Montos Flexibles</Text>
