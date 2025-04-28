@@ -22,7 +22,7 @@ export default function AboutScreen() {
           <Text style={styles.sectionText}>
             Oh Yara Pay nació con la visión de democratizar el acceso a servicios financieros. 
             Desde nuestro inicio, nos hemos comprometido a ofrecer soluciones innovadoras y accesibles 
-            para todos, con un enfoque en la transparencia y la satisfacción del cliente.
+            para todos los emprendedores y personas, con un enfoque en la transparencia y la satisfacción del cliente.
           </Text>
         </View>
 
@@ -53,7 +53,7 @@ export default function AboutScreen() {
             <Phone size={24} color="#7C3AED" />
             <View style={styles.contactInfo}>
               <Text style={styles.contactLabel}>Teléfono</Text>
-              <Text style={styles.contactText}>+1 (234) 567-890</Text>
+              <Text style={styles.contactText}>+51955168658</Text>
             </View>
           </TouchableOpacity>
 
@@ -80,7 +80,7 @@ export default function AboutScreen() {
             <View style={styles.contactInfo}>
               <Text style={styles.contactLabel}>Ubicación</Text>
               <Text style={styles.contactText}>
-                Av. Principal 123, Ciudad
+                Jr. Remigio silva 173, Comas
               </Text>
             </View>
           </View>
