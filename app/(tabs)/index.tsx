@@ -1,9 +1,14 @@
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import { ArrowRight, Shield, Clock, CircleCheck as CheckCircle } from 'lucide-react-native';
 
-export default function HomeScreen() {  const showPreApprovedAlert = () => {
-    Alert.alert('Préstamo Pre-aprobado', 'Exitoso su prestamo a sido pre aprobado');
+export default function HomeScreen() {
+  const openWhatsApp = () => {
+    const phoneNumber = '+51955168658';
+    const message = 'Hola, quiero solicitar un préstamo.';
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    Linking.openURL(url).catch(err => console.error('Error al abrir WhatsApp', err));
   };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.hero}>
@@ -16,7 +21,7 @@ export default function HomeScreen() {  const showPreApprovedAlert = () => {
           <Text style={styles.heroSubtitle}>Tu aliado financiero</Text>
           <TouchableOpacity
             style={styles.heroButton}
-            onPress={showPreApprovedAlert}
+            onPress={openWhatsApp}
           >
             <Text style={styles.heroButtonText}>Solicitar Préstamo</Text>
             <ArrowRight size={20} color="#fff" />
