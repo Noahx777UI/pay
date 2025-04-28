@@ -5,7 +5,7 @@ export default function AboutScreen() {
   return (
     <ScrollView style={styles.container}>
       <Image
-        source={{ uri: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop' }}
+        source={{ uri: 'https://aceleratucarrera.com/wp-content/uploads/2018/04/h%C3%A1bitos-de-emprendedores-con-%C3%A9xito-300x169.jpg' }}
         style={styles.coverImage}
       />
       
