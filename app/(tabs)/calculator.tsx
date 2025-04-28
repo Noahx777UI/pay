@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native'; // Import Alert
 import { Calculator as CalculatorIcon } from 'lucide-react-native';
 
 export default function CalculatorScreen() {
@@ -14,12 +14,51 @@ export default function CalculatorScreen() {
   const calculateLoan = () => {
     const principal = parseFloat(amount);
     const numberOfMonths = parseInt(months);
-    const annualInterestRate = 0.11; // 11%
-    const monthlyInterestRate = annualInterestRate / 12;
 
-    const monthlyPayment =
-      (principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfMonths)) /
-      (Math.pow(1 + monthlyInterestRate, numberOfMonths) - 1);
+    // --- Validación de entradas ---
+    if (isNaN(principal) || principal <= 0 || isNaN(numberOfMonths) || numberOfMonths <= 0) {
+      Alert.alert(
+        "Entrada inválida",
+        "Por favor, ingresa un monto y un plazo válidos (números mayores que cero)."
+      );
+      setResult(null); // Limpia resultados anteriores si la entrada es inválida
+      return; // Detiene la ejecución si la entrada no es válida
+    }
+    // --- Fin Validación ---
+
+    // *** CAMBIO CLAVE AQUÍ ***
+    // Directamente usa 11% como la tasa de interés MENSUAL
+    const monthlyInterestRate = 0.11; // 11% mensual (¡Esto es una tasa muy alta!)
+    // Ya no se necesita la tasa anual para este cálculo
+    // const annualInterestRate = 0.11; // Ya no se usa así
+    // const monthlyInterestRate = annualInterestRate / 12; // Ya no se calcula así
+
+    // --- Manejo de caso especial: Tasa de interés cero ---
+    // Aunque aquí la tasa es 0.11, es buena práctica manejar el 0%
+    // La fórmula estándar falla con tasa 0 (división por cero)
+    let monthlyPayment: number;
+    if (monthlyInterestRate === 0) {
+        monthlyPayment = principal / numberOfMonths;
+    } else {
+        // Fórmula estándar de amortización
+        monthlyPayment =
+        (principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfMonths)) /
+        (Math.pow(1 + monthlyInterestRate, numberOfMonths) - 1);
+    }
+    // --- Fin manejo tasa cero ---
+
+
+    // --- Manejo de NaN/Infinity en resultados ---
+    // Si el cálculo resulta en NaN o Infinity (puede pasar con valores extremos), maneja el error
+    if (isNaN(monthlyPayment) || !isFinite(monthlyPayment)) {
+       Alert.alert(
+        "Error de Cálculo",
+        "No se pudo calcular el préstamo con los valores ingresados. Verifica las entradas."
+       );
+       setResult(null);
+       return;
+    }
+    // --- Fin manejo NaN/Infinity ---
 
     const totalPayment = monthlyPayment * numberOfMonths;
     const totalInterest = totalPayment - principal;
@@ -32,12 +71,15 @@ export default function CalculatorScreen() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
+      {/* 'keyboardShouldPersistTaps="handled"' ayuda a que el teclado se cierre al tocar fuera de los inputs */}
       <View style={styles.content}>
         <View style={styles.header}>
           <CalculatorIcon size={40} color="#7C3AED" />
           <Text style={styles.title}>Simulador de Préstamos</Text>
           <Text style={styles.subtitle}>Calcula tu préstamo al instante</Text>
+          <Text style={styles.interestRateInfo}>(Tasa de Interés: 11% Mensual)</Text>
+          {/* Añadido para claridad */}
         </View>
 
         <View style={styles.card}>
@@ -73,7 +115,7 @@ export default function CalculatorScreen() {
         {result && (
           <View style={styles.resultContainer}>
             <Text style={styles.resultTitle}>Resumen del Préstamo</Text>
-            
+
             <View style={styles.resultCard}>
               <Text style={styles.resultLabel}>Pago Mensual</Text>
               <Text style={styles.resultValue}>
@@ -108,6 +150,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 24,
+    paddingBottom: 48, // Añade padding inferior para mejor scroll
   },
   header: {
     alignItems: 'center',
@@ -119,10 +162,19 @@ const styles = StyleSheet.create({
     color: '#1A1A1A',
     marginTop: 16,
     marginBottom: 8,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
     color: '#666',
+    textAlign: 'center',
+    marginBottom: 8, // Espacio antes de la info de tasa
+  },
+  interestRateInfo: { // Estilo para la aclaración de la tasa
+    fontSize: 14,
+    color: '#DC2626', // Rojo para advertir que es alta
+    fontWeight: '500',
+    textAlign: 'center',
   },
   card: {
     backgroundColor: '#FFF',
@@ -157,6 +209,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
+    marginTop: 8, // Añade un pequeño margen superior
   },
   buttonText: {
     color: '#FFF',
@@ -171,6 +224,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#1A1A1A',
     marginBottom: 16,
+    textAlign: 'center',
   },
   resultCard: {
     backgroundColor: '#FFF',
@@ -182,15 +236,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    flexDirection: 'row', // Alinea etiqueta y valor horizontalmente
+    justifyContent: 'space-between', // Espacio entre etiqueta y valor
+    alignItems: 'center', // Centra verticalmente
   },
   resultLabel: {
     fontSize: 16,
     color: '#666',
-    marginBottom: 4,
+    // marginBottom: 4, // No necesario con flex direction row
   },
   resultValue: {
-    fontSize: 24,
+    fontSize: 20, // Ligeramente más pequeño para caber mejor
     fontWeight: 'bold',
     color: '#7C3AED',
+    textAlign: 'right', // Alinea el número a la derecha
   },
 });
